@@ -1,0 +1,21 @@
+/* Variable de bootstrap pour les couleur (theme) */
+$theme-colors: (
+    'perso': #6096B4,
+    'persoUn':#93BFCF,
+    'persoDeux':#BDCDD6,
+    'persoTrois':#EEE9DA,
+);
+$display-font-sizes: (
+    1: 5rem,
+    2: 4.5rem,
+    3: 4rem,
+    4: 3.5rem,
+    5: 3rem,
+    6: 2.5rem,
+    7: 2rem,
+    8: 1.5rem
+);
+
+
+@import "../../../node_modules/bootstrap/scss/bootstrap.scss";
+
