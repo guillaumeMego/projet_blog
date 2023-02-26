@@ -22,7 +22,7 @@ Pour installer ce projet sur votre propre serveur, suivez ces étapes :
 1. Clonez le repository GitHub sur votre propre serveur.
 2. Créez une base de données MySQL pour le projet.
 3. Compléter le fichier `config.php`. Remplissez les informations de connexion à la base de données dans ce fichier en fonction de votre configuration.
-4. Exécutez le script SQL fourni (`database.sql`) pour créer les tables de base de données.
+4. Exécutez le script SQL fourni (`blog.sql`) pour créer les tables de base de données.
 5. Exécutez le serveur Apache et ouvrez le site web dans votre navigateur.
 
 ## Utilisation
