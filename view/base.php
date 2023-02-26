@@ -78,7 +78,7 @@
                 <h3 class="display-8 mb-4">Rejoins-moi ici :</h3>
                 <ul class="d-flex justify-content-center m-0">
                     <li class="nav-link mx-2">
-                        <a href="https://www.instagram.com/_nailsbynoe_/" class="text-police fs-4">
+                        <a href="#" class="text-police fs-4" target="_blank">
                             <i class="fa-brands fa-instagram"></i>
                         </a>
                     </li>
@@ -92,7 +92,7 @@
             <div class="contact d-flex flex-column justify-content-center align-items-center">
                 <h3 class="display-8 mb-4">Tu peux me contacter aussi ici :</h3>
                 <li class="nav-link mx-2">
-                    <a href="mailto:contact@nailsbyno.com" class="text-police fs-4">
+                    <a href="mailto:contact@guillaumeganne.com" class="text-police fs-4">
                         <i class="fa fa-envelope" aria-hidden="true"></i>
                         Envoie-moi un mail
                     </a>

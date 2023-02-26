@@ -39,6 +39,11 @@ Pour vous connecter en tant qu'utilisateur authentifié, veuillez entrer les inf
 1. E-mail : test.test@test.com
 2. Mot de passe  : testAdmin1
 
+## Mot de passe oublié
+
+Pour la fonction du mot de passe oublié, elle ne fonctionne pas en local mais en ligne, vous pouvez la tester sur la version en ligne expliquée ci-dessous : 
+https://nailsbyno.com
+
 ## Version en ligne
 
 Une version en ligne de ce projet est disponible à l'adresse suivante : https://nailsbyno.com Vous pouvez explorer les fonctionnalités du projet et tester son fonctionnement.
