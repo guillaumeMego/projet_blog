@@ -227,8 +227,6 @@ class Articles extends Database
 
     /**
      * Modifie le contenu de l'article dans la base de données
-     * 
-     * @return bool True si l'article a été modifié, false sinon
      */
     public static function changerContent($article)
     {
@@ -246,8 +244,6 @@ class Articles extends Database
 
     /**
      * Modifie l'image de l'article dans la base de données
-     * 
-     * @return bool True si l'article a été modifié, false sinon
      */
     public static function changerImage($image)
     {

@@ -32,6 +32,9 @@ class LikeController
         }
     }
 
+    /**
+     * Ajout d'un dislike
+     */
     function dislikes()
     {
         if (!empty($_SESSION['id']) && $_SESSION['id'] > 0) {

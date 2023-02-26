@@ -47,8 +47,6 @@ class Likes extends Database
 
     /**
      * Fonction pour ajouter un like
-     * 
-     * @param int $id_article
      */
     public function addLike($articleId, $userId)
     {
@@ -64,8 +62,6 @@ class Likes extends Database
 
     /**
      * Fonction pour supprimer un like
-     * 
-     * @param int $id_article
      */
     public function disLike($id_like)
     {
@@ -83,9 +79,6 @@ class Likes extends Database
 
     /**
      * Fonction pour compter le nombre de like d'un article
-     * 
-     * @param int $id_article
-     * @return int
      */
     public function countLike($id_article)
     {
@@ -104,9 +97,6 @@ class Likes extends Database
 
     /**
      * Fonction pour vérifier si l'utilisateur a déjà liké l'article
-     * 
-     * @param int $id_article
-     * @return bool
      */
     public function userLikedArticle($userId, $articleId)
     {
@@ -123,9 +113,6 @@ class Likes extends Database
 
     /**
      * Fonction pour récuperer l'id du like de l'utilisateur
-     * 
-     * @param int $id_article
-     * @return int
      */
     public function getLikeId($id_article)
     {

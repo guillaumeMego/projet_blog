@@ -84,9 +84,6 @@ class Commentaire extends Database
 
     /**
      * Méthode permettant de récupérer les commentaires d'un article
-     * 
-     * @param int $articleId
-     * @return array
      */
     public function getComments($articleId)
     {
@@ -105,9 +102,6 @@ class Commentaire extends Database
 
     /**
      * Méthode qui permet de recuperer l'id de l'auteur d'un commentaire
-     * 
-     * @param int $id
-     * @return int
      */
     public function getAuthorId($id)
     {
@@ -126,8 +120,6 @@ class Commentaire extends Database
 
     /**
      * Méthode permettant de supprimer un commentaire
-     * 
-     * @param int $id
      */
     public function deleteComment($id)
     {
@@ -144,9 +136,6 @@ class Commentaire extends Database
 
     /**
      * Méthode permettant de compter le nombre de commentaires dans un article
-     * 
-     * @param int $articleId
-     * @return int
      */
     public static function countComments($articleId)
     {

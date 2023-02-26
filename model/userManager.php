@@ -52,11 +52,6 @@ class UserManager extends Database
 
     /**
      * Ajouter un nouvel utilisateur à la base de données
-     *
-     * @param string $username Nom d'utilisateur
-     * @param string $mail Adresse e-mail
-     * @param string $password Mot de passe
-     * @return bool Résultat de l'exécution de la requête
      */
     public function setUser($username, $mail, $password)
     {
@@ -75,8 +70,6 @@ class UserManager extends Database
 
     /**
      * Verification du doublon d'un mail
-     * 
-     * @return $requete en fetch
      */
     public function getUserByMail($mail)
     {
@@ -113,10 +106,6 @@ class UserManager extends Database
 
     /**
      * Vérification de l'existence d'un utilisateur en utilisant son adresse e-mail et son mot de passe
-     *
-     * @param string $mail Adresse e-mail
-     * @param string $password Mot de passe
-     * @return bool Résultat de la vérification (true si l'utilisateur existe, false sinon)
      */
     public function verifyUser($mail, $password)
     {
@@ -179,9 +168,6 @@ class UserManager extends Database
 
     /**
      * Supprimer un utilisateur
-     * 
-     * @param string $mail Adresse e-mail
-     * @return void
      */
     public function deleteUser($id)
     {
@@ -217,9 +203,6 @@ class UserManager extends Database
 
     /**
      * Créer les sessions de l'utilisateur
-     *
-     * @param string $mail Adresse e-mail
-     * @return void
      */
     public function creerLesSessions($mail)
     {

@@ -4,7 +4,9 @@ use Random\Engine\Secure;
 
 class TokenController
 {
-
+    /**
+     * Fonction token pour gérer la page de token
+     */
     function token()
     {
         $error = '';
@@ -40,7 +42,9 @@ class TokenController
         require('./view/token.php');
     }
 
-
+    /**
+     * Fonction verifieToken pour gérer la page de vérification du token
+     */
     function verifieToken()
     {
         $success = '';

@@ -213,6 +213,7 @@ class UserController
 
     /**
      * Fonction pour supprimer un utilisateur
+     * @param int $id L'id de l'utilisateur
      */
     public function deleteProfil()
     {
@@ -229,6 +230,7 @@ class UserController
 
     /**
      * Fonction qui permet d'afficher la page erreur
+     * @param string $errorMessage Le message d'erreur
      */
     public function pageErreur($errorMessage)
     {
