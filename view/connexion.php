@@ -1,31 +1,34 @@
 <?php
-$titreFormulaire = "Connectez vous ici :";
-$titrePage = "Connexion";
-$title = "Connexion";
+$title = 'Connexion';
 ob_start();
 ?>
-<section>
-    <h2 class="display-6 my-5 text-center">Connexion</h2>
-    <div class="d-flex justify-content-center align-items-center mt-5">
+<form action=" index.php?page=connexion" method="post" class="col-xl-3 col-lg-4 col-md-5 col-sm-6 col-10 pt-5 px-5 bg-background form-action rounded shadow">
+    <a href="index.php?page=home" class="nav-link text-perso"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+    <h2 class="text-center mb-5"><img src="./public/asset/img/logonails.png" alt="Logo 'nails by no' du site" width="200"></h2>
+    <h3 class="display-8 text-police mb-3 text-center">Connexion</h3>
+    <p>
+        <input type="email" id="mail" name="mail" class="form-control mb-4" placeholder="E-mail">
+    </p>
+    <p>
+        <input type="password" id="password" name="password" class="form-control mb-4" placeholder="Mot de passe">
+    </p>
+    <?php if (!empty($error)) : ?>
+        <p class="text-danger small"><?php echo $error; ?></p>
+    <?php endif; ?>
+    <?php if (!empty($success)) : ?>
+        <p class="text-success small"><?php echo $success; ?></p>
+    <?php endif; ?>
+    <p>
+        <button type="submit" class="btn btn-perso shadow px-3 text-background btn rounded mb-5">Envoyer</button>
+    </p>
+    <p class="border border-2 p-2 text-center rounded mb-4">
+        <a href="index.php?page=token" class="btn btn-perso mb-2 px-3 text-background btn-sm rounded">Mot de passe oublé ?</a>
 
-        <form action=" index.php?page=connexion" method="post" class="bg-white form-action h-75 p-5 rounded shadow-lg">
-            <h2 class="display-6 text-center mb-4"><?= $titreFormulaire ?></h2>
-            <p>
-                <label for="mail" class="form-label mt-5">E-mail :</label>
-                <input type="email" id="mail" name="mail" class="form-control">
-            </p>
-            <p>
-                <label for="password" class="form-label">Mot de passe :</label>
-                <input type="password" id="password" name="password" class="form-control">
-            </p>
-            <p>
-                <button type="submit" class="btn btn-perso small mt-3">Envoyer</button>
-            </p>
-            <a href="inscription" class="btn btn-outline-perso btn-sm">Vous etes nouveau ?</a>
-        </form>
-    </div>
-</section>
+        <a href="index.php?page=inscription" class="btn btn-perso px-3 text-background btn-sm rounded">Vous etes nouveau ?</a>
+    </p>
+</form>
+
 <?php
 $content = ob_get_clean();
-require('base.php');
+require('baseform.php');
 ?>

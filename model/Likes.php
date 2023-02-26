@@ -9,7 +9,7 @@ class Likes extends Database
     /**
      * Constructeur de la classe Likes
      */
-    public function __construct($article_id, $user_id, $created_at)
+    public function __construct($article_id = "", $user_id = "", $created_at = "")
     {
         $this->article_id = $article_id;
         $this->user_id = $user_id;
@@ -50,11 +50,15 @@ class Likes extends Database
      * 
      * @param int $id_article
      */
-    public static function addLike($articleId, $userId)
+    public function addLike($articleId, $userId)
     {
         $bdd = Database::connection();
-        $requete = $bdd->prepare('INSERT INTO likes (article_id, user_id) VALUES (?, ?)');
-        $requete->execute([$articleId, $userId]);
+        try {
+            $requete = $bdd->prepare('INSERT INTO likes (article_id, user_id) VALUES (?, ?)');
+            $requete->execute([$articleId, $userId]);
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
     }
 
 
@@ -63,13 +67,17 @@ class Likes extends Database
      * 
      * @param int $id_article
      */
-    public static function disLike($id_like)
+    public function disLike($id_like)
     {
         $bdd = Database::connection();
-        $req = $bdd->prepare('DELETE FROM likes WHERE id = :id_like');
-        $req->execute(array(
-            'id_like' => $id_like
-        ));
+        try {
+            $requete = $bdd->prepare('DELETE FROM likes WHERE id = :id_like');
+            $requete->execute(array(
+                'id_like' => $id_like
+            ));
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
     }
 
 
@@ -79,15 +87,19 @@ class Likes extends Database
      * @param int $id_article
      * @return int
      */
-    public static function countLike($id_article)
+    public function countLike($id_article)
     {
         $bdd = Database::connection();
-        $req = $bdd->prepare('SELECT IFNULL(COUNT(*), 0) FROM likes WHERE article_id = :article_id');
-        $req->execute(array(
-            'article_id' => $id_article
-        ));
-        $result = $req->fetch();
-        return $result[0];
+        try {
+            $req = $bdd->prepare('SELECT IFNULL(COUNT(*), 0) FROM likes WHERE article_id = :article_id');
+            $req->execute(array(
+                'article_id' => $id_article
+            ));
+            $result = $req->fetch();
+            return $result[0];
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
     }
 
     /**
@@ -96,13 +108,17 @@ class Likes extends Database
      * @param int $id_article
      * @return bool
      */
-    public static function userLikedArticle($userId, $articleId)
+    public function userLikedArticle($userId, $articleId)
     {
         $bdd = Database::connection();
-        $requete = $bdd->prepare('SELECT COUNT(*) FROM likes WHERE user_id = ? AND article_id = ?');
-        $requete->execute([$userId, $articleId]);
-        $resultat = $requete->fetch();
-        return $resultat[0] > 0;
+        try {
+            $requete = $bdd->prepare('SELECT COUNT(*) FROM likes WHERE user_id = ? AND article_id = ?');
+            $requete->execute([$userId, $articleId]);
+            $resultat = $requete->fetch();
+            return $resultat[0] > 0;
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
     }
 
     /**
@@ -111,19 +127,23 @@ class Likes extends Database
      * @param int $id_article
      * @return int
      */
-    public static function getLikeId($id_article)
+    public function getLikeId($id_article)
     {
         $bdd = Database::connection();
-        $req = $bdd->prepare('SELECT id FROM likes WHERE article_id = :article_id AND user_id = :user_id');
-        $req->execute(array(
-            'article_id' => $id_article,
-            'user_id' => $_SESSION['id']
-        ));
-        $result = $req->fetch();
-        if (!empty($result)) {
-            return $result[0];
-        } else {
-            return null;
+        try {
+            $req = $bdd->prepare('SELECT id FROM likes WHERE article_id = :article_id AND user_id = :user_id');
+            $req->execute(array(
+                'article_id' => $id_article,
+                'user_id' => $_SESSION['id']
+            ));
+            $result = $req->fetch();
+            if (!empty($result)) {
+                return $result[0];
+            } else {
+                return null;
+            }
+        } catch (Exception $e) {
+            echo $e->getMessage();
         }
     }
 }

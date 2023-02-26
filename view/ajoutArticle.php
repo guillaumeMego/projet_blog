@@ -1,37 +1,37 @@
 <?php
-// Définition du titre de la page
 $title = 'Ajouter un article';
-$sousTitre = 'Page des articles';
-$titrePage = 'Ajouter un article';
-
-// Démarrage de la temporisation de sortie
 ob_start();
 ?>
-<!-- Contenu de la page -->
-<h2 class="display-6 my-5 text-center">Ajouter un article :</h2>
-<div class="d-flex justify-content-center align-items-center mt-5">
-    <form action="index.php?page=ajoutArticle" method="post" enctype="multipart/form-data" class="bg-white form-action h-75 p-3 mx-2 rounded shadow-lg">
-        <fieldset class="mb-2">
-            <label for="titre">Titre de l'article</label>
-            <input type="text" name="titre" id="titre" class="form-control">
-        </fieldset>
-        <fieldset class="mb-2">
-            <label for="description">Description de l'article</label>
-            <input type="text" name="description" id="description" class="form-control">
-        </fieldset>
-        <fieldset class="mb-2">
-            <label for="article">Contenu de l'article</label>
-            <textarea name="article" id="article" cols="30" rows="10" class="form-control"></textarea>
-        </fieldset>
-        <fieldset class="mb-2">
-            <label for="photo">Image de l'article</label>
-            <input type="file" name="photo" id="photo" class="form-control">
+<form action="index.php?page=ajoutArticle" method="post" enctype="multipart/form-data" class="px-5 pt-5 bg-background form-action rounded shadow">
+    <a href="index.php?page=home" class="nav-link text-perso"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+    <h3 class="display-8 text-police mb-3 text-center">Ajout d'article</h3>
+    <fieldset class="mb-2">
+        <label for="titre" class="mb-2 text-police">Titre de l'article :</label>
+        <input type="text" name="titre" id="titre" class="form-control">
+    </fieldset>
+    <fieldset class="mb-2">
+        <label for="description" class="mb-2 text-police">Description de l'article :</label>
+        <input type="text" name="description" id="description" class="form-control">
+    </fieldset>
+    <fieldset class="mb-2">
+        <label for="article" class="mb-2 text-police">Contenu de l'article :</label>
+        <textarea name="article" id="article" cols="30" rows="10" class="form-control"></textarea>
+    </fieldset>
+    <fieldset class="mb-2">
+        <label for="photo" class="mb-2 text-police">Image de l'article :</label>
+        <input type="file" name="photo" id="photo" class="form-control">
 
-        </fieldset>
-        <fieldset>
-            <button type="submit" class="btn btn-perso btn-sm text-white mt-2">Ajouter l'article</button>
-        </fieldset>
-    </form>
+    </fieldset>
+    <?php if (!empty($error)) : ?>
+        <p class="text-danger small"><?php echo $error; ?></p>
+    <?php endif; ?>
+    <?php if (!empty($success)) : ?>
+        <p class="text-success small"><?php echo $success; ?></p>
+    <?php endif; ?>
+    <fieldset>
+        <button type="submit" class="btn btn-perso shadow px-3 text-background btn rounded my-4">Ajouter l'article</button>
+    </fieldset>
+</form>
 </div>
 
 <?php
@@ -39,5 +39,5 @@ ob_start();
 $content = ob_get_clean();
 
 // Inclusion du template de base
-require('base.php');
+require('baseform.php');
 ?>

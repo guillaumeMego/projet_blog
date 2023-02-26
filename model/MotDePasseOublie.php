@@ -5,7 +5,7 @@ class MotDePasseOublie extends Database
     private $email;
     private $token;
 
-    public function __construct($email, $token)
+    public function __construct($email = '', $token = '')
     {
         $this->email = $email;
         $this->token = $token;
@@ -34,14 +34,18 @@ class MotDePasseOublie extends Database
     /**
      * Fonction qui verifie si l'email existe dans la base de données et qui crée un token
      */
-    public static function checkEmail($email)
+    public function checkEmail($email)
     {
         // Créer une connexion à la base de données
         $bdd = Database::connection();
 
         // Préparer la requête SQL pour récupérer l'utilisateur correspondant à l'adresse email
-        $req = $bdd->prepare('SELECT * FROM users WHERE mail = ?');
-        $req->execute(array($email));
+        try {
+            $req = $bdd->prepare('SELECT * FROM users WHERE mail = ?');
+            $req->execute(array($email));
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
 
         // Récupérer le résultat de la requête
         $result = $req->fetch();
@@ -50,14 +54,14 @@ class MotDePasseOublie extends Database
         if ($result) {
             return true;
         } else {
-            throw new Exception("L'adresse mail n'existe pas");
+            return false;
         }
     }
 
     /**
      * Fonction qui crée un token temporaire
      */
-    public static function createToken($email)
+    public function createToken($email)
     {
         // Créer un token temporaire
         $token = bin2hex(random_bytes(32));
@@ -68,15 +72,20 @@ class MotDePasseOublie extends Database
 
         // Inscrir le token dans la base de données
         $bdd = Database::connection();
-        $req = $bdd->prepare('INSERT INTO tokens(token, mail, expiry) VALUES (?, ?, ?)');
-        $req->execute(array($token, $email, $expiry));
+        try {
+            $req = $bdd->prepare('INSERT INTO tokens(token, mail, expiry) VALUES (?, ?, ?)');
+            $req->execute(array($token, $email, $expiry));
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+
         return $token;
     }
 
     /**
      * Fonction qui supprime le token de la base de données a sa date d'expiration
      */
-    public static function deleteToken($token)
+    public function deleteToken()
     {
         // Calculer la date et l'heure actuelles
         $now = date('Y-m-d H:i:s');
@@ -85,45 +94,30 @@ class MotDePasseOublie extends Database
         $bdd = Database::connection();
 
         // Supprimer les tokens expirés de la table "tokens"
-        $req = $bdd->prepare('DELETE FROM tokens WHERE expiry <= ?');
-        $req->execute(array($now));
+        try {
+            $req = $bdd->prepare('DELETE FROM tokens WHERE expiry <= ?');
+            $req->execute(array($now));
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
     }
 
-
-    /**
-     * Envoi un email à l'utilisateur avec un lien contenant le token
-     * @return void
-     */
-    public static function sendMail($token, $email)
-    {
-        $to = $email;
-        // Définir le sujet du message
-        $subject = 'Réinitialisation de mot de passe';
-
-        // Définir le corps du message avec le token stocké dans l'attribut token de l'objet
-        $message = 'Voici votre code de réinitialisation de mot de passe : ' . $token . "\r\n" .
-            'Ce code est valable 1 heure.';
-
-        // Définir les en-têtes de l'email pour spécifier l'adresse de l'expéditeur et l'adresse de réponse
-        $headers = 'From: contact@guillaumeganne.com' . "\r\n" .
-            'Reply-To: contact@guillaumeganne.com' . "\r\n" .
-            'X-Mailer: PHP/' . phpversion();
-
-        // Utiliser la fonction mail() de PHP pour envoyer l'e-mail avec les paramètres définis ci-dessus
-        mail($to, $subject, $message, $headers);
-    }
 
     /**
      * Fonction qui vérifie si le token existe dans la base de données
      */
-    public static function checkToken($token)
+    public function checkToken($token)
     {
         // Créer une connexion à la base de données
         $bdd = Database::connection();
 
         // Préparer la requête SQL pour récupérer le token correspondant
-        $req = $bdd->prepare('SELECT * FROM tokens WHERE token = ?');
-        $req->execute(array($token));
+        try {
+            $req = $bdd->prepare('SELECT * FROM tokens WHERE token = ?');
+            $req->execute(array($token));
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
 
         // Récupérer le résultat de la requête
         $result = $req->fetch();
@@ -132,31 +126,60 @@ class MotDePasseOublie extends Database
         if ($result) {
             return true;
         } else {
-            throw new Exception("Le token n'existe pas");
+            return false;
         }
     }
 
     /**
      * Fonction qui change le mot de passe de l'utilisateur
      */
-    public static function changePassword($password, $token)
+    public function changePassword($password, $token)
     {
         // Créer une connexion à la base de données
         $bdd = Database::connection();
 
         // Préparer la requête SQL pour récupérer l'utilisateur correspondant au token
-        $req = $bdd->prepare('SELECT * FROM tokens WHERE token = ?');
-        $req->execute(array($token));
-
-        // Récupérer le résultat de la requête
+        try {
+            $req = $bdd->prepare('SELECT mail FROM tokens WHERE token = ?');
+            $req->execute(array($token));
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
         $result = $req->fetch();
+        $mail = $result['mail'];
 
         // Préparer la requête SQL pour modifier le mot de passe de l'utilisateur
-        $req = $bdd->prepare('UPDATE users SET password = ? WHERE mail = ?');
-        $req->execute(array($password, $result['mail']));
+        try {
+            $req = $bdd->prepare('UPDATE users SET password = ? WHERE mail = ?');
+            $req->execute(array($password, $mail));
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
 
         // Supprimer le token de la table "tokens"
-        $req = $bdd->prepare('DELETE FROM tokens WHERE token = ?');
-        $req->execute(array($token));
+        try {
+            $req = $bdd->prepare('DELETE FROM tokens WHERE token = ?');
+            $req->execute(array($token));
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+        $this->deleteToken();
+    }
+
+    /**
+     * Fonction qui envoie un mail à l'utilisateur avec un lien pour changer son mot de passe
+     */
+    public function sendMail($to, $subject, $message)
+    {
+        $headers = "From: guillaume.ganne@gmail.com\r\n";
+        $headers .= "Reply-To: guillaume.ganne@gmail.com\r\n";
+        $headers .= "Content-Type: text/html\r\n";
+        $headers .= "X-Mailer: PHP/" . phpversion();
+
+        if (mail($to, $subject, $message, $headers)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

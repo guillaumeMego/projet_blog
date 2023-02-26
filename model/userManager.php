@@ -1,7 +1,6 @@
 <?php
 
-require_once('Manager.php');
-
+require_once 'Manager.php';
 /**
  * Classe UserManager pour gérer les utilisateurs
  */
@@ -14,7 +13,7 @@ class UserManager extends Database
     /**
      * Constructeur de la classe UserManager
      */
-    public function __construct($username, $mail, $password)
+    public function __construct($username = "", $mail = "", $password = "")
     {
         $this->_username = $username;
         $this->_mail = $mail;
@@ -63,11 +62,7 @@ class UserManager extends Database
     {
         // Connexion à la base de données
         $bdd = Database::connection();
-        // Vérifier si l'adresse e-mail existe déjà
-        $user = $this->getUserByMail($mail);
-        if ($user) {
-            throw new Exception("Cette adresse e-mail est déjà utilisée");
-        }
+
         // Préparation de la requête d'insertion
         $requete = $bdd->prepare('INSERT INTO users(username,mail,password) VALUES(?,?,?)');
 
@@ -109,7 +104,7 @@ class UserManager extends Database
         $requete->execute([$mail]);
 
         // Récupération des informations de l'utilisateur
-        $user = $requete->fetch();
+        $user = $requete->fetchAll();
 
         // Retour des informations de l'utilisateur
         return $user;
@@ -125,7 +120,7 @@ class UserManager extends Database
      */
     public function verifyUser($mail, $password)
     {
-        require_once('Verify.php');
+        require_once('./model/Securite.php');
         // Connexion à la base de données
         $bdd = Database::connection();
 
@@ -140,17 +135,18 @@ class UserManager extends Database
 
         // Vérification du nombre de lignes renvoyées par la requête
         if ($requete->rowCount() > 0) {
+            $securite = new Securite();
             // Utilisateur trouvé
-            if (Securite::verifier($password, $user['password'])) {
+            if ($securite->verifier($password, $user['password'])) {
                 // Mot de passe correct
-                return true;
+                return array("found" => true, "valid" => true);
             } else {
                 // Mot de passe incorrect
-                return false;
+                return array("found" => true, "valid" => false);
             }
         } else {
             // Utilisateur non trouvé
-            return false;
+            return array("found" => false, "valid" => false);
         }
     }
 
@@ -162,19 +158,19 @@ class UserManager extends Database
      * @param string $password Mot de passe
      * 
      */
-    public static function changerPseudo($username)
+    public function changerPseudo($username)
     {
         $bdd = Database::connection();
         $requete = $bdd->prepare('UPDATE users SET username = ? WHERE id = ?');
         $requete->execute([$username, $_SESSION['id']]);
     }
-    public static function changerMail($mail)
+    public function changerMail($mail)
     {
         $bdd = Database::connection();
         $requete = $bdd->prepare('UPDATE users SET mail = ? WHERE id = ?');
         $requete->execute([$mail, $_SESSION['id']]);
     }
-    public static function changerPassword($password)
+    public function changerPassword($password)
     {
         $bdd = Database::connection();
         $requete = $bdd->prepare('UPDATE users SET password = ? WHERE id = ?');
@@ -187,7 +183,7 @@ class UserManager extends Database
      * @param string $mail Adresse e-mail
      * @return void
      */
-    public static function deleteUser($id)
+    public function deleteUser($id)
     {
         $bdd = Database::connection();
 
@@ -206,7 +202,7 @@ class UserManager extends Database
      * 
      * @return bool
      */
-    public static function hasAuth()
+    public function hasAuth()
     {
         $bdd = Database::connection();
         $requete = $bdd->prepare('SELECT * FROM users WHERE id = ?');
@@ -227,7 +223,7 @@ class UserManager extends Database
      */
     public function creerLesSessions($mail)
     {
-        $user = $this->getUser($mail);
+        $user = $this->getUserByMail($mail);
 
         $_SESSION['connect'] = 1;
         $_SESSION['id'] = $user['id'];

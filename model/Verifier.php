@@ -1,6 +1,6 @@
 <?php
 
-require_once('Manager.php');
+require_once 'Manager.php';
 
 /**
  * Classe UserManager pour gérer les utilisateurs
@@ -13,7 +13,7 @@ class Verifier extends Database
      * @param string $mail Adresse email à vérifier
      * @return bool True si l'adresse email est valide, false sinon
      */
-    public static function syntaxeEmail($mail)
+    public function syntaxeEmail($mail)
     {
         // Utilisation de la fonction filter_var pour vérifier la syntaxe de l'adresse email
         if (filter_var($mail, FILTER_VALIDATE_EMAIL)) {
@@ -29,7 +29,7 @@ class Verifier extends Database
      * @param string $mail Adresse email à vérifier
      * @return bool True si l'adresse email existe déjà, false sinon
      */
-    public static function emailExist($mail)
+    public function emailExist($mail)
     {
         $bdd = Database::connection();
         $req = $bdd->prepare('SELECT COUNT(*) AS nb FROM users WHERE mail = ?');
@@ -48,7 +48,7 @@ class Verifier extends Database
      * @param string $username Pseudo à vérifier
      * @return bool True si le pseudo existe déjà, false sinon
      */
-    public static function usernameExist($username)
+    public function usernameExist($username)
     {
         $bdd = Database::connection();
         $req = $bdd->prepare('SELECT COUNT(*) AS nb FROM users WHERE username = ?');
@@ -67,7 +67,7 @@ class Verifier extends Database
      * @param string $mail Adresse email à vérifier
      * @return bool True si l'adresse email existe déjà, false sinon
      */
-    public static function imageUpload($image)
+    public function imageUpload($image)
     {
         $tailleMax = 2097152;
         $extensionsValides = array('jpg', 'jpeg', 'gif', 'png');

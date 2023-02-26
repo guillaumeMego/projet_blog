@@ -1,15 +1,17 @@
 <?php
+
+session_start();
 // Routeur
-require('controller/controller.php');
-require('controller/articlecontroller.php');
-require('controller/likeController.php');
-require('controller/tokencontroller.php');
+require './controller/userController.php';
+require './controller/articleController.php';
+require './controller/likeController.php';
+require './controller/tokenController.php';
 
-// Enregistrement de la fonction d'autochargement de classes
-spl_autoload_register(function ($className) {
-    require_once('model/' . $className . '.php');
-});
 
+$controller = new UserController();
+$article    = new ArticleController();
+$like       = new LikeController();
+$token      = new TokenController();
 try {
     // Si la variable 'page' est définie dans l'URL
     if (isset($_GET['page'])) {
@@ -17,75 +19,63 @@ try {
         switch ($_GET['page']) {
             case 'home':
                 // Affichage de la page d'accueil
-                blog();
+                $controller->home();
+                break;
+            case 'connexion':
+                // Affichage de la page de connexion
+                $controller->connexion();
                 break;
             case 'inscription':
-                // Si les données d'inscription ont été envoyées via le formulaire
-                if (!empty($_POST['username']) && !empty($_POST['mail']) && !empty($_POST['password'])) {
-                    // Appel de la fonction addUser() du contrôleur
-                    addUser(htmlspecialchars($_POST['username']), htmlspecialchars($_POST['mail']), htmlspecialchars($_POST['password']));
-                } else {
-                    // Affichage de la page d'inscription
-                    home();
-                }
+                // Affichage de la page d'inscription
+                $controller->addUser();
                 break;
             case 'deleteProfil':
                 // Suppression du profil
-                deleteProfil();
-                break;
-            case 'connexion':
-                // Si les données de connexion ont été envoyées via le formulaire
-                if (!empty($_POST['mail']) && !empty($_POST['password'])) {
-                    // Appel de la fonction connexion() du contrôleur
-                    connexion(htmlspecialchars($_POST['mail']), htmlspecialchars($_POST['password']));
-                } else {
-                    // Affichage de la page de connexion
-                    pageConnect();
-                }
+                $controller->deleteProfil();
                 break;
             case 'profil':
                 // Affichage de la page du profil
-                profil();
+                $controller->profil();
                 break;
             case 'article':
                 // Affichage de la page du blog
-                article();
+                $article->article();
                 break;
             case 'ajoutArticle':
                 // Affichage de la page d'ajout d'article
-                ajoutArticle();
+                $article->ajoutArticle();
                 break;
             case 'deleteArticle':
                 // Suppression d'un article
-                deleteArticle();
+                $article->deleteArticle();
                 break;
             case 'updateArticle':
                 // Affichage de la page de modification d'article
-                updateArticle();
+                $article->updateArticle();
                 break;
             case 'ajoutLike':
                 // Ajout d'un like
-                addLikes();
+                $like->addLikes();
                 break;
             case 'dislike':
                 // Ajout d'un dislike
-                disLikes();
+                $like->disLikes();
                 break;
             case 'deconnexion':
                 // Déconnexion de l'utilisateur
-                logout();
+                $controller->logout();
                 break;
             case 'deleteCommentaire':
                 // Suppression d'un commentaire
-                deleteCommentaire();
+                $article->deleteCommentaire();
                 break;
             case 'token':
                 // Affichage de la page de réinitialisation de mot de passe
-                token();
+                $token->token();
                 break;
             case 'changePassword':
                 // Affichage de la page de modification de mot de passe
-                verifieToken();
+                $token->verifieToken();
                 break;
             default:
                 // Si la page n'existe pas, levée d'une exception
@@ -93,10 +83,9 @@ try {
         }
     } else {
         // Par défaut, affichage de la page d'accueil
-        blog();
+        $controller->home();
     }
 } catch (Exception $e) {
-    // Traitement des exceptions
-    $error = $e->getMessage();
-    require('view/errorView.php');
+    $errorMessage = $e->getMessage();
+    $controller->pageErreur($errorMessage);
 }

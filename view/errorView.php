@@ -10,7 +10,9 @@ ob_start(); // retient et met dans content
 <section class="container mx-auto m-5">
 
     <h1>OUPS</h1>
-    <p><?= $error ?></p>
+    <?php if (isset($errorMessage)) : ?>
+        <div class="error-message"><?php echo $errorMessage; ?></div>
+    <?php endif; ?>
 
 </section>
 

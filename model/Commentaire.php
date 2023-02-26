@@ -8,7 +8,7 @@ class Commentaire extends Database
     private $_created_at;
     private $_updated_at;
 
-    public function __construct($articleId, $userId, $content, $created_at, $updated_at)
+    public function __construct($articleId = "", $userId = "", $content = "", $created_at = "", $updated_at = "")
     {
         $this->_articleId = $articleId;
         $this->_userId = $userId;
@@ -65,7 +65,7 @@ class Commentaire extends Database
      * @param int $userId
      * @param string $content
      */
-    public static function addComment($articleId, $userId, $content)
+    public function addComment($articleId, $userId, $content)
     {
         $articleId = $_GET['id'];
         $userId = $_SESSION['id'];
@@ -88,7 +88,7 @@ class Commentaire extends Database
      * @param int $articleId
      * @return array
      */
-    public static function getComments($articleId)
+    public function getComments($articleId)
     {
         try {
             $bdd = Database::connection();
@@ -109,7 +109,7 @@ class Commentaire extends Database
      * @param int $id
      * @return int
      */
-    public static function getAuthorId($id)
+    public function getAuthorId($id)
     {
         try {
             $bdd = Database::connection();
@@ -129,7 +129,7 @@ class Commentaire extends Database
      * 
      * @param int $id
      */
-    public static function deleteComment($id)
+    public function deleteComment($id)
     {
         try {
             $bdd = Database::connection();

@@ -1,9 +1,11 @@
 /* Variable de bootstrap pour les couleur (theme) */
 $theme-colors: (
-    'perso': #6096B4,
-    'persoUn':#93BFCF,
-    'persoDeux':#BDCDD6,
-    'persoTrois':#EEE9DA,
+    'perso': #97a7c3,
+    'persoUn':#d1d9e6,
+    'persoDeux':#f5f5f5,
+    'persoTrois':#ffffff,
+    'police': #535d6e,
+    'background':#ecf0f3
 );
 $display-font-sizes: (
     1: 5rem,
@@ -15,7 +17,22 @@ $display-font-sizes: (
     7: 2rem,
     8: 1.5rem
 );
+$box-shadow : 14px 14px 20px #cbced1, -14px -14px 20px white;
+$box-shadow-lg: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+$border-radius:20px !default;
+$input-bg: #ecf0f3;
+$card-border-radius: 5px;
+$card-border-width: 0;
+$card-bg: #f5f5f5;
 
 
 @import "../../../node_modules/bootstrap/scss/bootstrap.scss";
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
+:root{
+    --bs-body-font-family: 'Montserrat', sans-serif;
+}
+
+.bg-image:hover{
+    transform: rotate3d(1, 1, 1, 360deg);
+}
